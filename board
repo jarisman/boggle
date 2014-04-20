@@ -1,0 +1,37 @@
+package blah;
+
+import java.util.ArrayList;
+
+public class playgame {
+	static final Dictionary dictionary = BoggleDictionaryFromWordList.fromDefault();
+
+
+
+	public static void main(String[] argv) {
+
+		board test = new board();
+
+		String gameInstanceFilename = "gameInstance.txt";
+		Boolean status = board.ReadFromTextFile(gameInstanceFilename);
+		if (status == true) {
+			board.PrintLetterArray();
+		} else {
+			System.out.println("Unable to read game instance file: " + gameInstanceFilename);
+		}
+		int count = 0;
+
+
+		// Step 1: create board
+		//board thisBoard = new board();
+		//board.PrintLetterArray();
+
+		ArrayList<String> allPossibleCombinations = test.returnAllWords();
+		for (String word:allPossibleCombinations){
+			if (dictionary.isWord(word) && word.length()>=3){
+				System.out.println(word);
+				count++;
+			}
+		}
+		System.out.println("Total word count is: " + count);
+	}
+}
