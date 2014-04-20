@@ -1,0 +1,170 @@
+/******************************************
+ * Bill Nicholson
+ * Scramble With Friends 
+ * Final Project
+ * CP II Spring 2014
+ ******************************************/
+package swf;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+
+/**
+ * Scramble With Friends
+ * @author Nicholson.Bill
+ *
+ */
+public final class SWF {
+	private final String wordFileNameDefault = "english.ALL.txt";
+	private char[][] grid;
+	public static final int height = 4;
+	public static final int width = 4;
+	public static ArrayList<String> wordList;
+	private String wordFileName;
+	private ArrayList<String> gameWordList;
+
+	/** 
+	 * Constructor
+	 * 
+	 */
+	public SWF() {
+		grid = new char[height][width];
+		wordList = new ArrayList<String>();
+		gameWordList = new ArrayList<String>();
+		wordFileName = wordFileNameDefault;
+		if (wordList.size() == 0) {
+			loadWordList(wordList);
+		}
+	}
+
+	/**
+	 * Load the word file into an ArrayList
+	 * @param wordList the place where the wordList should be loaded
+	 */
+	private int loadWordList(ArrayList<String> wordList) {
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(wordFileName));
+			try {
+				while (true) {
+					// Store all the words as lower case
+					wordList.add(br.readLine().toLowerCase().trim());
+				}
+			} catch (Exception ex) {
+				// We will eat this one
+			}
+		} catch (Exception ex) {
+			System.out.println("SWF.loadWordList() : " + ex.getLocalizedMessage());
+		}
+		return wordList.size();
+	}
+	/**
+	 * Get the number of words in the word list
+	 * @return The number of words in the word list
+	 */
+	public int getSizeOfWordList() {
+		return wordList.size();
+	}
+	/** 
+	 * See if it's a word
+	 * @param word The 'word' to be checked against the global word list
+	 * @return True if word is in the global word list, false otherwise.
+	 */
+	public Boolean isWord(String word) {
+		Boolean result = false;		// Expect the worst
+		String myWord = word.toLowerCase().trim();
+		if (wordList.indexOf(myWord) >= 0){result = true;}
+		return result;
+	}
+	/**
+	 * Get a copy of the current letter matrix
+	 * @return a (reference to a) copy of the current letter matrix.
+	 */
+	public char[][] getLetterArray()
+	{
+		char[][] tmpLetterArray = new char[height][width];
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				tmpLetterArray[i][j] = grid[i][j];
+			}
+		}
+		return tmpLetterArray;
+	}
+	/**
+	 * Read a game instance from a text file into the letter array. 
+	 * @param fileName
+	 * @return True on success, false otherwise
+	 */
+	public boolean ReadFromTextFile(String fileName) {
+		Boolean status = true;		// Hope for the best
+		FileReader fileReader = null;
+		try {
+			fileReader = new FileReader(fileName);
+			BufferedReader b = new BufferedReader(fileReader);
+			for (int i = 0; i < height; i++) {
+				String tmp;
+				tmp = b.readLine();
+				String[] x = tmp.split(" ");
+				for (int j = 0; j < width; j++) {
+					grid[i][j] = x[j].toCharArray()[0];				
+				}
+			}
+		} catch (Exception ex) {
+			status = false;
+		} finally {
+			try {fileReader.close();} catch(Exception ex){}
+		}
+		return status;
+	}
+	/**
+	 * Print the letter array to the console
+	 */
+	public void PrintLetterArray() 
+	{
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				System.out.print(grid[i][j] +  " ");
+			}
+			System.out.println("");
+		}
+	}
+	/** 
+	 * Count the number of valid words in an ArrayList
+	 * @param foundWords The ArrayList of words. Case-insensitive
+	 * @return The number of strings in the ArrayList that were found in wordList. 
+	 */
+	public int checkFoundWords(ArrayList<String> foundWords) {
+		int count = 0;
+		for (int i = 0; i < foundWords.size(); i++) {
+			if (isWord(foundWords.get(i))) count++;
+		}
+		return count;
+	}
+	/**
+	 * Find as many words as possible.
+	 * @return the ArrayList of words that you found. It will be checked against a master list for the letter array
+	 */
+	public ArrayList<String> ProcessALetterArray() {
+		ArrayList<String> result = new ArrayList<String>();
+
+		return result;
+	}
+	/**
+	 * Compare a list of words against the master list for a particular game board.
+	 * @return the corrected list of words. Any words not in the master list are removed.
+	 */
+	private ArrayList<String> verifyResults() {
+		ArrayList<String> result = new ArrayList<String>();
+		// TODO
+		// You will get this in class when we have our contest...
+		return result;
+	}
+	/**
+	 * Compute the master list of words for a game board. 
+	 * Fills in gameWordList based on the words found in letterArray
+	 */
+	private void computeMasterList() {
+		// TODO
+		// You will get this in class when we have our contest...
+	}
+}
